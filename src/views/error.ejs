@@ -1,0 +1,6 @@
+<div class="min-vh-100 bg-theme">
+  <%if(errorMessage){ %> <% {errorMessage?.map((err) => { %>
+
+  <div class="alert alert-danger" role="alert"><%= err?.msg %></div>
+  <% })} %> <%}%>
+</div>

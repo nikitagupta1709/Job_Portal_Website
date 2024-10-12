@@ -17,7 +17,7 @@ export default class UserController {
     const { email, password } = req.body;
     const user = UserModal.isValidUSer(email, password);
     if (!user) {
-      return res.render("error", {
+      return res.status(404).render("error", {
         errorMessage: "user not found pls register",
       });
     }

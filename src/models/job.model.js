@@ -70,7 +70,6 @@ export default class JobModel {
   }
 
   static update(obj) {
-    console.log("obj", obj);
     const index = jobs.findIndex((p) => p.id == obj.id);
     jobs[index] = {
       ...jobs[index], // Keep the existing fields
@@ -105,7 +104,7 @@ var jobs = [
     salary: "12 -14 lpa",
     number_of_openings: "1",
     skills_required: ["React", "Angular", "SpringBoot"],
-    apply_by: "2024-10-03",
+    apply_by: "2024-10-13",
     userEmail: "niki@test.com",
     userName: "Nikita",
     posted_on: "06/10/2024, 09:02:03 pm",
@@ -113,9 +112,9 @@ var jobs = [
       {
         id: 1,
         name: "Nikita",
-        email: "email",
+        email: "nikita@test.com",
         contact: "837208302",
-        resume: "https://sidjgisjdg.com",
+        resume: "/resumes/1728730587758-NikitaGuptaResume.pdf",
       },
     ],
   },

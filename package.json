@@ -19,13 +19,14 @@
   },
   "homepage": "https://github.com/nikitagupta1709/Job_Portal_Website#readme",
   "dependencies": {
-    "cookie-parser": "^1.4.6",
+    "cookie-parser": "^1.4.7",
     "ejs": "^3.1.10",
     "express": "^4.21.0",
     "express-ejs-layouts": "^2.5.1",
     "express-session": "^1.18.0",
     "express-validator": "^7.2.0",
-    "multer": "^1.4.5-lts.1"
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.15"
   },
   "devDependencies": {
     "@types/multer": "^1.4.12"

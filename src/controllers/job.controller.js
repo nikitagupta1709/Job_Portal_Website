@@ -1,5 +1,6 @@
 // job.controller.js
 import JobModel from "../models/job.model.js";
+import { sendMail } from "../utils/mailer.js";
 
 export default class JobController {
   constructor() {
@@ -83,7 +84,7 @@ export default class JobController {
     }
     // 2. else return errors.
     else {
-      res.render("error", { errorMessage: "No job found" });
+      res.status(404).render("error", { errorMessage: "No job found" });
     }
   }
 
@@ -96,9 +97,8 @@ export default class JobController {
   updateJobData(req, res) {
     const id = req.params.id;
     const jobFound = JobModel.getJobById(id);
-    console.log("jobFound", jobFound);
     if (!jobFound) {
-      return res.render("error", { errorMessage: "No job found" });
+      return res.status(404).render({ errorMessage: "No job found" });
     }
     const jobObj = {
       id: id,
@@ -126,10 +126,10 @@ export default class JobController {
     const id = req.params.id;
     const jobData = JobModel.getJobById(id);
     if (!jobData) {
-      return res.render("error", { errorMessage: "No job found" });
+      return res.status(404).render("error", { errorMessage: "No job found" });
     }
     if (req.session.userEmail !== jobData?.userEmail) {
-      return res.render("error", {
+      return res.status(404).render("error", {
         errorMessage: "You are not authorized to delete this job!",
       });
     }
@@ -141,12 +141,13 @@ export default class JobController {
     const id = req.params.id;
     const jobFound = JobModel.getJobById(id);
     if (!jobFound) {
-      return res.render("error", { errorMessage: "No job found" });
+      return res.status(404).render("error", { errorMessage: "No job found" });
     }
     if (jobFound?.applicants?.length === 0) {
-      return res.render("error", { errorMessage: "0 applicants found" });
+      return res
+        .status(404)
+        .render("error", { errorMessage: "0 applicants found" });
     }
-    console.log("jobFound", jobFound);
     res.render("applicant-listing", {
       data: jobFound?.applicants,
     });
@@ -156,22 +157,40 @@ export default class JobController {
     const id = req.params.id;
     const jobFound = JobModel.getJobById(id);
     if (!jobFound) {
-      return res.render("error", { errorMessage: "No job found" });
+      return res.status(404).render("error", { errorMessage: "No job found" });
     }
     if (jobFound?.userEmail === req.session.userEmail) {
-      return res.render("error", {
+      return res.status(404).render("error", {
         errorMessage: "You are not authoried recruiter",
-      });
-    }
-    const currentDate = new Date();
-    const applyByDate = new Date(jobFound?.apply_by);
-    if (currentDate > applyByDate) {
-      return res.render("error", {
-        errorMessage: "The application deadline has passed.",
       });
     }
     req.body.resume = `/resumes/${req.file.filename}`;
     JobModel.addApplicant(req.body, id);
-    res.redirect("/jobs");
+    sendMail(req.body.email, jobFound.job_designation, jobFound.company_name)
+      .then(() => res.redirect("/jobs"))
+      .catch((err) =>
+        res.status(404).render("error", {
+          errorMessage: "Failed to send confirmation email.",
+        })
+      );
   }
+  // job.controller.js
+  checkApplicationDeadline = (req, res) => {
+    const id = req.params.id; // Get the job ID from the request parameters
+    const jobFound = JobModel.getJobById(id); // Fetch job data
+
+    // Get the current date and the application deadline
+    const currentDate = new Date();
+    const applyByDate = new Date(jobFound?.apply_by);
+    // Check if the current date is past the application deadline
+    if (currentDate > applyByDate) {
+      return res.json({
+        error: true,
+        message: "The application deadline has passed.",
+      });
+    }
+
+    // If the deadline is not passed, return a success message or the job details
+    return res.json({ error: false, job: jobFound });
+  };
 }

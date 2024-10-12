@@ -22,4 +22,11 @@ export default class UserModal {
   }
 }
 
-var users = [];
+var users = [
+  {
+    id: 1,
+    name: "Nikita",
+    email: "nikita@test.com",
+    password: "niki",
+  },
+];

@@ -1,15 +1,22 @@
 import express from "express";
 import expressEjsLayouts from "express-ejs-layouts";
 import path from "path";
+import cookieParser from "cookie-parser";
 import session from "express-session";
 import UserController from "./src/controllers/user.controller.js";
-import { actionMiddleWare, auth } from "./src/middlewares/auth.middleware.js";
+import {
+  actionMiddleWare,
+  auth,
+  dateExpiredMidlleware,
+} from "./src/middlewares/auth.middleware.js";
 import JobsController from "./src/controllers/job.controller.js";
 import { jobCreateValidation } from "./src/middlewares/validation.middleware.js";
 import { uploadFile } from "./src/middlewares/file-upload.middleware.js";
+import { settingLastVisit } from "./src/middlewares/last-visit.middleware.js";
 
 const app = express();
 app.use(express.static("public"));
+app.use(cookieParser());
 app.use(
   session({
     secret: "SecretKey",
@@ -29,16 +36,16 @@ app.set("view engine", "ejs");
 app.set("views", path.join(path.resolve(), "src", "views"));
 
 // HOME PAGE
-app.get("/", (req, res) => {
+app.get("/", settingLastVisit, (req, res) => {
   res.render("landing", { errorMessage: null });
 });
 
 // REGISTER
-app.post("/", usersController.postRegister);
+app.post("/register", usersController.postRegister);
 
 // ERROR
 app.get("/error", (req, res) => {
-  res.render("error", { errorMessage: null });
+  res.status(404).render("error", { errorMessage: null });
 });
 
 // LOGIN PAGE
@@ -96,7 +103,7 @@ app.get("/jobs", (req, res) => {
 
   // If no jobs match the query, render the error page
   if (filteredJobs.length === 0) {
-    return res.render("error", { errorMessage: "No jobs found" });
+    return res.status(404).render("error", { errorMessage: "No jobs found" });
   }
 
   // Render the job listing page with the filtered jobs
@@ -109,7 +116,7 @@ app.get("/jobs", (req, res) => {
 });
 
 // GET JOB POST (Render form for posting a new job)
-app.get("/postjob", (req, res) => {
+app.get("/postjob", auth, (req, res) => {
   res.render("new-job", {
     userEmail: req.session?.userEmail || null,
     userName: req.session?.userName || null,
@@ -142,9 +149,14 @@ app.post("/job/delete/:id", auth, actionMiddleWare, jobController.deleteJob);
 // APPLICANT LIST
 app.get("/job/applicants/:id", auth, jobController.getApplicantData);
 
+app.get(
+  "/check-application-deadline/:id",
+  jobController.checkApplicationDeadline
+);
 // POST APPLICANT
 app.post(
   "/apply/:id",
+  dateExpiredMidlleware,
   uploadFile.single("resume"),
   jobController.addApplicantData
 );

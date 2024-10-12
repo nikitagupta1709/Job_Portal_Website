@@ -23,6 +23,7 @@ This project is a Job Portal web application built using Node.js and Express. It
 - **Multer**: Middleware for handling file uploads
 - **Express-session**: Middleware for session management
 - **Cookie-parser**: Middleware for cookie management
+- **Node-Mailer**: Sending mails to the applicant on successfull applying
 
 ## Installation
 
@@ -31,4 +32,14 @@ This project is a Job Portal web application built using Node.js and Express. It
    ```bash
    git clone https://github.com/yourusername/job-portal.git
    cd job-portal
+   ```
+2. Install the dependencies:
+
+   ```bash
+   npm install
+   ```
+3. Start the server::
+
+   ```bash
+   npm start
    ```

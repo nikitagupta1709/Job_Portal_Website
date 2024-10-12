@@ -7,7 +7,7 @@ export const settingLastVisit = (req, res, next) => {
   }
 
   // Set a new cookie for the current visit timestamp
-  res.cookie("lastVisit", new Date().toLocaleString(), {
+  res.cookie("lastVisit", new Date().toUTCString(), {
     maxAge: 2 * 24 * 60 * 60 * 1000, // Set the cookie to expire in 2 days
     httpOnly: true, // Optional: prevents client-side JavaScript from accessing the cookie for security
   });

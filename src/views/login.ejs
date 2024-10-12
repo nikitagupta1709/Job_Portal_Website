@@ -1,75 +1,47 @@
-<div
-  class="modal fade"
-  id="loginPage"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="exampleModalCenterTitle"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalCenterTitle">Login</h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
+<div class="container p-3 mx-auto w-50 form-box my-5 rounded-md">
+  <h2 style="color: #181642" class="text-center mb-3">Login</h2>
+  <form action="/login" method="post">
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-default"
+          >Email</span
         >
-          <span aria-hidden="true">&times;</span>
-        </button>
       </div>
-      <div class="modal-body">
-        <!-- Add your login form here -->
-        <form action="/jobs" method="post">
-          <div class="input-group input-group-sm mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="inputGroup-sizing-sm"
-                >Email</span
-              >
-            </div>
-            <input
-              type="email"
-              class="form-control"
-              aria-label="Sizing example input"
-              aria-describedby="inputGroup-sizing-sm"
-              id="email"
-              placeholder="xyz@google.com"
-              name="email"
-            />
-          </div>
-          <div class="input-group input-group-sm mb-3">
-            <div class="input-group-prepend">
-              <span class="input-group-text" id="inputGroup-sizing-sm"
-                >Password</span
-              >
-            </div>
-            <input
-              type="password"
-              class="form-control"
-              aria-label="Sizing example input"
-              aria-describedby="inputGroup-sizing-sm"
-              id="password"
-              placeholder="enter your password"
-              name="password"
-            />
-          </div>
-          <button type="submit" class="btn btn-primary lbtn">Login</button>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal">
-          Close
-        </button>
-      </div>
+      <input
+        type="email"
+        class="form-control"
+        aria-label="Sizing example input"
+        aria-describedby="inputGroup-sizing-sm"
+        id="email"
+        placeholder="xyz@google.com"
+        name="email"
+        required
+      />
     </div>
-  </div>
+    <div class="input-group mb-3">
+      <div class="input-group-prepend">
+        <span class="input-group-text" id="inputGroup-sizing-default"
+          >Password</span
+        >
+      </div>
+      <input
+        type="password"
+        class="form-control"
+        aria-label="Sizing example input"
+        aria-describedby="inputGroup-sizing-sm"
+        id="password"
+        placeholder="enter your password"
+        name="password"
+        required
+      />
+    </div>
+    <%if(errorMessage){ %>
+    <div class="alert alert-danger" role="alert">
+      <ul>
+        <li><%= errorMessage %></li>
+      </ul>
+    </div>
+    <%}%>
+    <button type="submit" class="btn btn-primary lbtn">Login</button>
+  </form>
 </div>
-
-<script>
-  if (showModal) {
-    $(document).ready(function () {
-      $("#loginPage").modal("show");
-    });
-  }
-</script>

@@ -1,6 +1,19 @@
-<div class="min-vh-100 bg-theme">
-  <%if(errorMessage){ %> <% {errorMessage?.map((err) => { %>
+<div class="error-box container-fluid bg-theme">
+  <div class="top">
+    <h1 style="color: white; font-size: 100px">OOPs</h1>
+    <img
+      width="400px"
+      src="https://cdn.rawgit.com/ahmedhosna95/upload/1731955f/sad404.svg"
+      alt="404"
+    />
+  </div>
+  <% if(errorMessage){ %>
+  <h1 class="p-a text-danger"><%= errorMessage %></h1>
+  <% } else{ %>
 
-  <div class="alert alert-danger" role="alert"><%= err?.msg %></div>
-  <% })} %> <%}%>
+  <h1 class="p-a text-danger">
+    only recruiter is allowed to access this page, login as recruiter to
+    continue
+  </h1>
+  <% } %>
 </div>

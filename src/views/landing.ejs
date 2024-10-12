@@ -2,9 +2,7 @@
   <%if(errorMessage){ %>
   <div class="alert alert-danger" role="alert">
     <ul>
-      <% {errorMessage?.forEach((err) => { %>
-      <li><%= err?.msg %></li>
-      <% })} %>
+      <li><%= errorMessage %></li>
     </ul>
   </div>
   <%}%>
@@ -29,6 +27,95 @@
     </div>
     <div class="right">
       <img src="https://files.codingninjas.in/438375-17407.webp" alt="banner" />
+    </div>
+  </div>
+  <div
+    class="modal fade"
+    id="registerPage"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title text-black" id="exampleModalCenterTitle">
+            Register
+          </h5>
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Add your login form here -->
+          <form action="/" method="post">
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default"
+                  >Name</span
+                >
+              </div>
+              <input
+                type="text"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-default"
+                id="name"
+                placeholder="enter your name"
+                name="name"
+                required
+              />
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default"
+                  >Email</span
+                >
+              </div>
+              <input
+                type="email"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-default"
+                id="email"
+                placeholder="xyz@google.com"
+                name="email"
+                required
+              />
+            </div>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="inputGroup-sizing-default"
+                  >Password</span
+                >
+              </div>
+              <input
+                type="password"
+                class="form-control"
+                aria-label="Sizing example input"
+                aria-describedby="inputGroup-sizing-default"
+                id="password"
+                placeholder="enter your password"
+                name="password"
+                required
+              />
+            </div>
+            <button type="submit" class="btn btn-primary lbtn">Regsiter</button>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <div class="card-body">Already Regsitered ?</div>
+          <button type="button" class="btn btn-outline-success">
+            <a class="dropdown-item" href="/login">Login</a>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </div>

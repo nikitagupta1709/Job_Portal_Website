@@ -8,9 +8,12 @@ export default class UserModal {
   static add(name, email, password) {
     const newUser = new UserModal(users.length + 1, name, email, password);
     users.push(newUser);
-    console.log("newUser", newUser);
   }
 
+  static isUserExist(email) {
+    const result = users?.find((u) => u.email === email);
+    return result;
+  }
   static isValidUSer(email, password) {
     const result = users.find(
       (ele) => ele.email == email && ele.password == password

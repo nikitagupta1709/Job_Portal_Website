@@ -1,19 +1,20 @@
 import { body, validationResult } from "express-validator";
 
-export const registerValidation = async (req, res, next) => {
-  console.log("req", req.body);
+export const jobCreateValidation = async (req, res, next) => {
   const rules = [
-    body("name").notEmpty().withMessage("Name is required"),
-    body("email").isEmail().withMessage("Email is required"),
-    body("password").notEmpty().withMessage("Password is required"),
+    body("job_category").notEmpty().withMessage("Job cateory required"),
+    body("job_designation")
+      .notEmpty()
+      .withMessage("Job description is required"),
+    body("skills_required").notEmpty().withMessage("Skills are required"),
+    body("apply_by").notEmpty().withMessage("Apply by date is required"),
   ];
 
   await Promise.all(rules.map((rule) => rule.run(req)));
 
   var validationErrors = validationResult(req);
-  console.log("error", validationErrors);
   if (!validationErrors?.isEmpty()) {
-    return res.render("landing", {
+    return res.render("new-job", {
       errorMessage: validationErrors?.array(),
     });
   }

@@ -1,16 +1,18 @@
 <div class="min-vh-100 bg-theme">
   <div
-    class="container mx-auto p-2 d-flex align-items-centre justify-content-around flex-wrap"
+    class="container mx-auto p-2 d-flex align-items-center justify-content-around flex-wrap"
   >
+    <% if(jobs && jobs.length > 0){ jobs.forEach((job) => { %>
     <div class="card border-white m-3 bg-theme" style="max-width: 18rem">
       <div
-        class="card-header d-flex flex-column align-items-centre justify-content-start p-2"
+        class="card-header d-flex flex-column align-items-center justify-content-start p-2"
       >
         <span
           style="width: 160px"
           class="bg-actively-btn bg-opacity-25 text-white p-1 rounded"
         >
-          Actively hiring<svg
+          Actively hiring
+          <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
             height="16"
@@ -24,17 +26,17 @@
             ></path>
           </svg>
         </span>
-        <h5 class="my-1 fw-bold text-warning">Coding Ninjas</h5>
+        <h5 class="my-1 fw-bold text-warning"><%= job?.company_name %></h5>
         <div>
-          <span>Tech</span>
-          <span class="text-info">SDE</span>
+          <span><%= job?.job_category %></span>
+          <span class="text-info"><%= job?.job_designation %></span>
         </div>
       </div>
       <div
-        class="card-body d-flex align-items-centre justify-content-center flex-column"
+        class="card-body d-flex align-items-center justify-content-center flex-column"
       >
         <p class="fw-bold">
-          <i class="bi bi-geo-alt-fill"></i>Gurgaon HR IND Remote
+          <i class="bi bi-geo-alt-fill"></i> <%= job?.job_location %>
         </p>
         <p class="fw-bold">
           <svg
@@ -49,27 +51,22 @@
               d="M4 3.06h2.726c1.22 0 2.12.575 2.325 1.724H4v1.051h5.051C8.855 7.001 8 7.558 6.788 7.558H4v1.317L8.437 14h2.11L6.095 8.884h.855c2.316-.018 3.465-1.476 3.688-3.049H12V4.784h-1.345c-.08-.778-.357-1.335-.793-1.732H12V2H4v1.06Z"
             ></path>
           </svg>
-          14-20lpa
+          <%= job?.salary %>
         </p>
         <div class="skills p-1">
-          <button class="btn btn-sm btn-outline-info">REACT</button>
-
-          <button class="btn btn-sm btn-outline-info">NodeJs</button>
-
-          <button class="btn btn-sm btn-outline-info">JS</button>
-
-          <button class="btn btn-sm btn-outline-info">SQL</button>
-
-          <button class="btn btn-sm btn-outline-info">MongoDB</button>
-
-          <button class="btn btn-sm btn-outline-info">Express</button>
-
-          <button class="btn btn-sm btn-outline-info">AWS</button>
+          <% job?.skills_required?.forEach((skill) => { %>
+          <button class="btn btn-sm btn-outline-info"><%= skill %></button>
+          <% }) %>
         </div>
-        <a href="/job/1" class="btn btn-sm btn-outline-success my-2">
-          View details
-        </a>
+        <a href="/job/<%= job.id %>" class="btn btn-sm btn-outline-success my-2"
+          >View details</a
+        >
       </div>
     </div>
+    <% }) %> <% } else { %>
+    <div class="container mx-auto p-2 text-center">
+      <p class="text-white">No jobs available at the moment.</p>
+    </div>
+    <% } %>
   </div>
 </div>

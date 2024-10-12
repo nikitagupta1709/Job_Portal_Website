@@ -1,18 +1,15 @@
-// Middleware to manage the last visit cookie for users
 export const settingLastVisit = (req, res, next) => {
-  // Check if the 'lastVisit' cookie exists
   if (req.cookies.lastVisit) {
-    // Store the last visit as UTC in res.locals (no need to format yet)
-    res.locals.lastVisit = req.cookies.lastVisit; // Use UTC directly
+    res.locals.lastVisit = req.cookies.lastVisit; // Keep the last visit in UTC format
   }
 
-  // Set a new cookie for the current visit in UTC format
-  res.cookie("lastVisit", new Date().toISOString(), {
-    // ISOString is in UTC
+  const currentUTC = new Date().toISOString(); // Store current time in UTC
+
+  // Set the 'lastVisit' cookie to the current UTC time
+  res.cookie("lastVisit", currentUTC, {
     maxAge: 2 * 24 * 60 * 60 * 1000, // 2 days expiration
     httpOnly: true,
   });
 
-  // Proceed to the next middleware or route handler
   next();
 };

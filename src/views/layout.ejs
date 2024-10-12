@@ -90,15 +90,21 @@
           </ul>
           <!-- landing.ejs -->
           <% if (locals.lastVisit) { %>
-          <p id="lastVisit"></p>
+          <p class="badge badge-light" id="lastVisit"></p>
 
           <script>
-            const lastVisitUTC = "<%= locals.lastVisit %>"; // Get the UTC time from the server
+            const lastVisitUTC = "<%= locals.lastVisit %>"; // Get the UTC time from the server (ISO format)
+            console.log("UTC Time from cookie:", lastVisitUTC); // Debug log to check the value
+
             const lastVisitDate = new Date(lastVisitUTC); // Convert UTC string to a Date object
-            const localTime = lastVisitDate.toLocaleString(); // Convert to user's local time zone
+            const localTime = lastVisitDate.toLocaleString(); // Convert to the user's local time zone
+
+            console.log("Local Time:", localTime); // Debug log to check the local time
+
+            // Display the local time on the page
             document.getElementById(
               "lastVisit"
-            ).innerText = `Last Visit: ${localTime}`; // Display local time
+            ).innerText = `Your Last Visit was on: ${localTime}`;
           </script>
           <% } %> &nbsp; &nbsp; &nbsp;
           <form class="d-flex" action="/jobs" method="/post">

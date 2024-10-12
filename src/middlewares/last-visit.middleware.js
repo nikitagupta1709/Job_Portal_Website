@@ -2,14 +2,15 @@
 export const settingLastVisit = (req, res, next) => {
   // Check if the 'lastVisit' cookie exists
   if (req.cookies.lastVisit) {
-    // If it exists, convert the cookie value to a Date object and format it to a locale string
-    res.locals.lastVisit = new Date(req.cookies.lastVisit).toLocaleString(); // Store the formatted date in locals for use in views
+    // Store the last visit as UTC in res.locals (no need to format yet)
+    res.locals.lastVisit = req.cookies.lastVisit; // Use UTC directly
   }
 
-  // Set a new cookie for the current visit timestamp
-  res.cookie("lastVisit", new Date().toUTCString(), {
-    maxAge: 2 * 24 * 60 * 60 * 1000, // Set the cookie to expire in 2 days
-    httpOnly: true, // Optional: prevents client-side JavaScript from accessing the cookie for security
+  // Set a new cookie for the current visit in UTC format
+  res.cookie("lastVisit", new Date().toISOString(), {
+    // ISOString is in UTC
+    maxAge: 2 * 24 * 60 * 60 * 1000, // 2 days expiration
+    httpOnly: true,
   });
 
   // Proceed to the next middleware or route handler

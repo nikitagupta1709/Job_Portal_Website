@@ -88,10 +88,18 @@
             </li>
             <% } %>
           </ul>
-          <% if(locals.lastVisit){ %>
-          <span class="badge badge-light">
-            Your Last Visit was on : <br /><%= locals.lastVisit %>
-          </span>
+          <!-- landing.ejs -->
+          <% if (locals.lastVisit) { %>
+          <p id="lastVisit"></p>
+
+          <script>
+            const lastVisitUTC = "<%= locals.lastVisit %>"; // Get the UTC time from the server
+            const lastVisitDate = new Date(lastVisitUTC); // Convert UTC string to a Date object
+            const localTime = lastVisitDate.toLocaleString(); // Convert to user's local time zone
+            document.getElementById(
+              "lastVisit"
+            ).innerText = `Last Visit: ${localTime}`; // Display local time
+          </script>
           <% } %> &nbsp; &nbsp; &nbsp;
           <form class="d-flex" action="/jobs" method="/post">
             <input
